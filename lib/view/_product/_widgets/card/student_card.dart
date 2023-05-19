@@ -29,23 +29,26 @@ class StudentCard extends StatelessWidget {
                 Expanded(
                     flex: 1,
                     child: FullScreenWidget(
+                      disposeLevel: DisposeLevel.High,
                       child: Hero(
-                        tag: courseDetailViewModel.courseDetailModel!.students![index].id!,
+                        tag: courseDetailViewModel
+                            .courseDetailModel!.students![index].id!,
                         child: ClipOval(
                           child: Image(
                               fit: BoxFit.fill,
                               height: context.height * 0.06,
                               width: context.width * 0.06,
-                              image: CachedNetworkImageProvider(courseDetailViewModel
-                                  .courseDetailModel!.students![index].imageUrl!)),
+                              image: CachedNetworkImageProvider(
+                                  courseDetailViewModel.courseDetailModel!
+                                      .students![index].imageUrl!)),
                         ),
                       ),
                     )),
                 const Spacer(flex: 1),
                 Expanded(
                     flex: 8,
-                    child:
-                        Text(courseDetailViewModel.courseDetailModel!.students![index].fullName!)),
+                    child: Text(courseDetailViewModel
+                        .courseDetailModel!.students![index].fullName!)),
               ],
             )));
   }

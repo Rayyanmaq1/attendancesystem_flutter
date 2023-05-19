@@ -30,13 +30,16 @@ class ProfileView extends StatelessWidget {
         model.init();
         model.getUserInformation(typeOfUser);
       },
-      onPageBuilder: (BuildContext context, ProfileViewModel viewModel) => Scaffold(
+      onPageBuilder: (BuildContext context, ProfileViewModel viewModel) =>
+          Scaffold(
         key: viewModel.profileScaffoldKey,
         appBar: buildAppBar(context, viewModel),
         drawer: const MenuView(),
         body: Observer(
           builder: (_) {
-            return viewModel.isLoading ? buildCenter() : buildUserColumn(context, viewModel);
+            return viewModel.isLoading
+                ? buildCenter()
+                : buildUserColumn(context, viewModel);
           },
         ),
       ),
@@ -61,16 +64,19 @@ class ProfileView extends StatelessWidget {
     return Column(
       children: <Widget>[
         Expanded(flex: 20, child: buildUserContainer(context, viewModel)),
-        Expanded(flex: 80, child: buildSingleChildScrollView(context, viewModel))
+        Expanded(
+            flex: 80, child: buildSingleChildScrollView(context, viewModel))
       ],
     );
   }
 
   SingleChildScrollView buildSingleChildScrollView(
           BuildContext context, ProfileViewModel viewModel) =>
-      SingleChildScrollView(child: buildProfileDetailContainer(context, viewModel));
+      SingleChildScrollView(
+          child: buildProfileDetailContainer(context, viewModel));
 
-  Container buildProfileDetailContainer(BuildContext context, ProfileViewModel viewModel) {
+  Container buildProfileDetailContainer(
+      BuildContext context, ProfileViewModel viewModel) {
     return Container(
       padding: context.paddingNormal,
       child: Column(
@@ -78,14 +84,17 @@ class ProfileView extends StatelessWidget {
         children: [
           Text(
             LocaleKeys.profile_account_title.tr(),
-            style: context.textTheme.subtitle1!.copyWith(fontWeight: FontWeight.w600),
+            style: context.textTheme.subtitle1!
+                .copyWith(fontWeight: FontWeight.w600),
           ),
           Divider(color: ColorSchemeLight.instance!.black),
           Card(
             color: context.colorScheme.primaryContainer,
             child: Column(
               children: [
-                typeOfUser == 'student' ? buildProfilePhotoListTile(viewModel) : const SizedBox(),
+                typeOfUser == 'student'
+                    ? buildProfilePhotoListTile(viewModel)
+                    : const SizedBox(),
                 buildUsernameChangeListTile(context, viewModel),
                 buildPasswordChangeListTile(context, viewModel),
               ],
@@ -101,7 +110,8 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  ListTile buildUsernameChangeListTile(BuildContext context, ProfileViewModel viewModel) {
+  ListTile buildUsernameChangeListTile(
+      BuildContext context, ProfileViewModel viewModel) {
     return ListTile(
       leading: const Icon(FontAwesomeIcons.idBadge),
       title: Text(LocaleKeys.profile_account_fullNameTitle.tr()),
@@ -112,7 +122,8 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  ListTile buildPasswordChangeListTile(BuildContext context, ProfileViewModel viewModel) {
+  ListTile buildPasswordChangeListTile(
+      BuildContext context, ProfileViewModel viewModel) {
     return ListTile(
       leading: const Icon(Icons.password_rounded),
       title: Text(LocaleKeys.profile_account_passwordTitle.tr()),
@@ -123,7 +134,8 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  ListTile buildLogOutListTile(BuildContext context, ProfileViewModel viewModel) {
+  ListTile buildLogOutListTile(
+      BuildContext context, ProfileViewModel viewModel) {
     return ListTile(
       leading: const Icon(Icons.exit_to_app),
       title: Text(LocaleKeys.profile_exit_logout.tr()),
@@ -145,9 +157,10 @@ class ProfileView extends StatelessWidget {
                 showCamera: true,
                 showGif: false,
                 compressSize: 50,
-                cropConfig: CropConfig(enableCrop: true, width: 1024, height: 1024))
-            .then((value) async =>
-                await viewModel.updateStudentProfilePicture(typeOfUser, value.first));
+                cropConfig:
+                    CropConfig(enableCrop: true, width: 1024, height: 1024))
+            .then((value) async => await viewModel.updateStudentProfilePicture(
+                typeOfUser, value.first));
       },
     );
   }
@@ -166,18 +179,24 @@ class ProfileView extends StatelessWidget {
                     child: CircleAvatar(
                         backgroundColor: ColorSchemeLight.instance!.transparent,
                         radius: 30,
-                        child: Text(viewModel.teacherModel!.fullName.toString().characters.first)))
+                        child: Text(viewModel.teacherModel!.fullName
+                            .toString()
+                            .characters
+                            .first)))
                 : viewModel.studentModel!.imageUrl == null
                     ? Expanded(
                         flex: 1,
                         child: CircleAvatar(
                             backgroundColor: ColorSchemeLight.instance!.black,
                             radius: 30,
-                            child:
-                                Text(viewModel.studentModel!.fullName.toString().characters.first)))
+                            child: Text(viewModel.studentModel!.fullName
+                                .toString()
+                                .characters
+                                .first)))
                     : Expanded(
                         flex: 1,
                         child: FullScreenWidget(
+                          disposeLevel: DisposeLevel.High,
                           child: Hero(
                             tag: viewModel.studentModel!.id!,
                             child: ClipOval(
@@ -225,7 +244,8 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Form buildChangeFullNameForm(ProfileViewModel viewModel, BuildContext context) {
+  Form buildChangeFullNameForm(
+      ProfileViewModel viewModel, BuildContext context) {
     return Form(
       autovalidateMode: AutovalidateMode.always,
       key: typeOfUser == 'teacher'
@@ -245,7 +265,8 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Form buildChangePasswordForm(ProfileViewModel viewModel, BuildContext context) {
+  Form buildChangePasswordForm(
+      ProfileViewModel viewModel, BuildContext context) {
     return Form(
       autovalidateMode: AutovalidateMode.always,
       key: typeOfUser == 'teacher'
@@ -268,16 +289,19 @@ class ProfileView extends StatelessWidget {
   TextFormField buildTextFormFieldFullName(ProfileViewModel viewModel) {
     return TextFormField(
       controller: viewModel.fullNameController,
-      validator: (value) => value!.isNotEmpty ? null : 'Full name does not valid!',
-      decoration: InputDecoration(labelText: LocaleKeys.profile_account_fullName.tr()),
+      validator: (value) =>
+          value!.isNotEmpty ? null : 'Full name does not valid!',
+      decoration:
+          InputDecoration(labelText: LocaleKeys.profile_account_fullName.tr()),
     );
   }
 
   TextFormField buildTextFormFieldPassword(ProfileViewModel viewModel) {
     return TextFormField(
       controller: viewModel.passwordController,
-      validator: (value) =>
-          value!.isValidPasswords ? null : 'Min 8 characters, 1 uppercase, 1 lowercase, 1 number',
+      validator: (value) => value!.isValidPasswords
+          ? null
+          : 'Min 8 characters, 1 uppercase, 1 lowercase, 1 number',
       decoration: InputDecoration(
           labelText: LocaleKeys.profile_account_password.tr(),
           prefixIcon: const Icon(Icons.password)),
@@ -288,9 +312,11 @@ class ProfileView extends StatelessWidget {
     return TextFormField(
       controller: viewModel.confirmPasswordController,
       validator: (value) {
-        if (value!.isValidPasswords && value == viewModel.passwordController!.text) {
+        if (value!.isValidPasswords &&
+            value == viewModel.passwordController!.text) {
           return null;
-        } else if (value.isValidPasswords && value != viewModel.passwordController!.text) {
+        } else if (value.isValidPasswords &&
+            value != viewModel.passwordController!.text) {
           return 'Password does not match';
         } else {
           return 'Min 8 characters, 1 uppercase, 1 lowercase, 1 number';
@@ -302,7 +328,8 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget buildTextRichChangePassword(BuildContext context, ProfileViewModel viewModel) {
+  Widget buildTextRichChangePassword(
+      BuildContext context, ProfileViewModel viewModel) {
     return Align(
       alignment: Alignment.center,
       child: Text.rich(
@@ -310,10 +337,9 @@ class ProfileView extends StatelessWidget {
             children: [
               TextSpan(
                 text: LocaleKeys.profile_account_passwordTitle.tr(),
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6!
-                    .copyWith(fontWeight: FontWeight.bold, color: context.colorScheme.onPrimary),
+                style: Theme.of(context).textTheme.headline6!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: context.colorScheme.onPrimary),
               ),
               TextSpan(
                 text: LocaleKeys.profile_account_passwordDesc.tr(),
@@ -325,7 +351,8 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget buildTextRichChangeFullName(BuildContext context, ProfileViewModel viewModel) {
+  Widget buildTextRichChangeFullName(
+      BuildContext context, ProfileViewModel viewModel) {
     return Align(
       alignment: Alignment.center,
       child: Text.rich(
@@ -333,10 +360,9 @@ class ProfileView extends StatelessWidget {
             children: [
               TextSpan(
                 text: LocaleKeys.profile_account_fullNameTitle.tr(),
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6!
-                    .copyWith(fontWeight: FontWeight.bold, color: context.colorScheme.onPrimary),
+                style: Theme.of(context).textTheme.headline6!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: context.colorScheme.onPrimary),
               ),
               TextSpan(
                 text: LocaleKeys.profile_account_fullNameDesc.tr(),
@@ -348,7 +374,8 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget buildElevatedButtonPasswordConfirm(BuildContext context, ProfileViewModel viewModel) {
+  Widget buildElevatedButtonPasswordConfirm(
+      BuildContext context, ProfileViewModel viewModel) {
     return Observer(builder: (_) {
       return TitleTextButton(
           onPressed: viewModel.isLoading
@@ -368,7 +395,8 @@ class ProfileView extends StatelessWidget {
     });
   }
 
-  Widget buildElevatedButtonFullNameConfirm(BuildContext context, ProfileViewModel viewModel) {
+  Widget buildElevatedButtonFullNameConfirm(
+      BuildContext context, ProfileViewModel viewModel) {
     return Observer(builder: (_) {
       return TitleTextButton(
           onPressed: viewModel.isLoading
@@ -390,7 +418,8 @@ class ProfileView extends StatelessWidget {
     });
   }
 
-  Future<dynamic> showModalBottomSheetPassword(BuildContext context, ProfileViewModel viewModel) {
+  Future<dynamic> showModalBottomSheetPassword(
+      BuildContext context, ProfileViewModel viewModel) {
     return showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -401,7 +430,8 @@ class ProfileView extends StatelessWidget {
               expand: true,
               minChildSize: 0.3,
               maxChildSize: 1,
-              builder: (BuildContext context, ScrollController scrollController) {
+              builder:
+                  (BuildContext context, ScrollController scrollController) {
                 return SingleChildScrollView(
                   padding: context.paddingNormal,
                   child: buildChangePasswordForm(viewModel, context),
@@ -410,7 +440,8 @@ class ProfileView extends StatelessWidget {
         });
   }
 
-  Future<dynamic> showModalBottomSheetFullName(BuildContext context, ProfileViewModel viewModel) {
+  Future<dynamic> showModalBottomSheetFullName(
+      BuildContext context, ProfileViewModel viewModel) {
     return showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -421,7 +452,8 @@ class ProfileView extends StatelessWidget {
               expand: true,
               minChildSize: 0.3,
               maxChildSize: 1,
-              builder: (BuildContext context, ScrollController scrollController) {
+              builder:
+                  (BuildContext context, ScrollController scrollController) {
                 return SingleChildScrollView(
                   padding: context.paddingNormal,
                   child: buildChangeFullNameForm(viewModel, context),

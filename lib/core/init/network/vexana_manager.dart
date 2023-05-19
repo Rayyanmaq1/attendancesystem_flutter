@@ -15,15 +15,15 @@ class VexanaManager {
   static final String _androidBaseUrl = dotenv.env['APP_API_SITE'].toString();
 
   VexanaManager._init();
-
-  INetworkManager networkManager = NetworkManager(
+  var networkManager = NetworkManager(
     isEnableLogger: true,
     fileManager: LocalFile(),
     options: BaseOptions(
-        baseUrl: Platform.isAndroid ? _androidBaseUrl : _iosBaseUrl,
-        receiveDataWhenStatusError: true,
-        connectTimeout: 30000,
-        receiveTimeout: 30000,
-        followRedirects: false),
+      baseUrl: Platform.isAndroid ? _androidBaseUrl : _iosBaseUrl,
+      receiveDataWhenStatusError: true,
+      connectTimeout: 30000,
+      receiveTimeout: 30000,
+      followRedirects: false,
+    ),
   );
 }

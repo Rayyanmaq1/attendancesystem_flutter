@@ -18,7 +18,10 @@ class AttendanceView extends StatelessWidget {
   final String date;
 
   const AttendanceView(
-      {Key? key, required this.typeOfUser, required this.courseId, required this.date})
+      {Key? key,
+      required this.typeOfUser,
+      required this.courseId,
+      required this.date})
       : super(key: key);
 
   @override
@@ -31,7 +34,8 @@ class AttendanceView extends StatelessWidget {
         model.getCourseDetail(typeOfUser, courseId);
         model.showAttendanceStatus(date, courseId);
       },
-      onPageBuilder: (BuildContext context, CourseDetailViewModel viewModel) => Scaffold(
+      onPageBuilder: (BuildContext context, CourseDetailViewModel viewModel) =>
+          Scaffold(
         key: viewModel.attendanceViewScaffoldKey,
         appBar: buildAppBar(context, viewModel),
         body: Observer(builder: (_) {
@@ -50,7 +54,8 @@ class AttendanceView extends StatelessWidget {
   Column buildColumn(BuildContext context, CourseDetailViewModel viewModel) {
     return Column(
       children: [
-        Expanded(flex: 20, child: buildAttendanceStatusCard(context, viewModel)),
+        Expanded(
+            flex: 20, child: buildAttendanceStatusCard(context, viewModel)),
         viewModel.manageAttendanceModels!.imageUrl == null
             ? const SizedBox()
             : Expanded(
@@ -59,8 +64,12 @@ class AttendanceView extends StatelessWidget {
                   children: [
                     Expanded(
                         flex: 10,
-                        child: Text(LocaleKeys.course_teacher_attendance_attendancePhoto.tr())),
-                    Expanded(flex: 90, child: buildAttendanceImageCard(context, viewModel)),
+                        child: Text(LocaleKeys
+                            .course_teacher_attendance_attendancePhoto
+                            .tr())),
+                    Expanded(
+                        flex: 90,
+                        child: buildAttendanceImageCard(context, viewModel)),
                   ],
                 )),
         Expanded(flex: 45, child: buildStudentListView(viewModel)),
@@ -68,7 +77,8 @@ class AttendanceView extends StatelessWidget {
     );
   }
 
-  Card buildAttendanceStatusCard(BuildContext context, CourseDetailViewModel viewModel) {
+  Card buildAttendanceStatusCard(
+      BuildContext context, CourseDetailViewModel viewModel) {
     return Card(
       child: Padding(
         padding: context.paddingBitNormal,
@@ -84,8 +94,10 @@ class AttendanceView extends StatelessWidget {
     );
   }
 
-  FullScreenWidget buildAttendanceImageCard(BuildContext context, CourseDetailViewModel viewModel) {
+  FullScreenWidget buildAttendanceImageCard(
+      BuildContext context, CourseDetailViewModel viewModel) {
     return FullScreenWidget(
+      disposeLevel: DisposeLevel.High,
       child: Hero(
         tag: viewModel.manageAttendanceModels!.imageUrl!,
         child: Image(
@@ -96,15 +108,18 @@ class AttendanceView extends StatelessWidget {
     );
   }
 
-  Column buildAttendanceStatusAbsentColumn(BuildContext context, CourseDetailViewModel viewModel) {
+  Column buildAttendanceStatusAbsentColumn(
+      BuildContext context, CourseDetailViewModel viewModel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(LocaleKeys.course_teacher_attendance_absent.tr(),
-            style: context.textTheme.subtitle2!.copyWith(color: context.colorSchemeLight.red)),
+            style: context.textTheme.subtitle2!
+                .copyWith(color: context.colorSchemeLight.red)),
         Text(viewModel.manageAttendanceModels!.absentStudent!,
-            style: context.textTheme.bodyText2!.copyWith(color: context.colorSchemeLight.red))
+            style: context.textTheme.bodyText2!
+                .copyWith(color: context.colorSchemeLight.red))
       ],
     );
   }
@@ -116,22 +131,27 @@ class AttendanceView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(LocaleKeys.course_teacher_attendance_participants.tr(),
-            style: context.textTheme.subtitle2!.copyWith(color: context.colorSchemeLight.green)),
+            style: context.textTheme.subtitle2!
+                .copyWith(color: context.colorSchemeLight.green)),
         Text(viewModel.manageAttendanceModels!.participateStudent!,
-            style: context.textTheme.bodyText2!.copyWith(color: context.colorSchemeLight.green))
+            style: context.textTheme.bodyText2!
+                .copyWith(color: context.colorSchemeLight.green))
       ],
     );
   }
 
-  Column buildAttendanceStatusTotalColumn(BuildContext context, CourseDetailViewModel viewModel) {
+  Column buildAttendanceStatusTotalColumn(
+      BuildContext context, CourseDetailViewModel viewModel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(LocaleKeys.course_teacher_attendance_tot.tr(),
-            style: context.textTheme.subtitle2!.copyWith(color: context.colorSchemeLight.blue)),
+            style: context.textTheme.subtitle2!
+                .copyWith(color: context.colorSchemeLight.blue)),
         Text(viewModel.manageAttendanceModels!.totalStudent!,
-            style: context.textTheme.bodyText2!.copyWith(color: context.colorSchemeLight.blue))
+            style: context.textTheme.bodyText2!
+                .copyWith(color: context.colorSchemeLight.blue))
       ],
     );
   }
@@ -145,7 +165,8 @@ class AttendanceView extends StatelessWidget {
         Observer(builder: (_) {
           return IconButton(
               onPressed: () async {
-                await viewModel.manageAttendanceStatus(typeOfUser, date, courseId);
+                await viewModel.manageAttendanceStatus(
+                    typeOfUser, date, courseId);
               },
               icon: const Icon(FontAwesomeIcons.save));
         })
@@ -167,7 +188,9 @@ class AttendanceView extends StatelessWidget {
             padding: context.paddingLowHorizontal,
             child: Observer(builder: (_) {
               return StudentManageAttendanceCard(
-                  courseDetailViewModel: viewModel, typeOfUser: typeOfUser, index: index);
+                  courseDetailViewModel: viewModel,
+                  typeOfUser: typeOfUser,
+                  index: index);
             })),
       );
     });

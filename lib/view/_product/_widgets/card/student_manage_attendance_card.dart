@@ -33,18 +33,19 @@ class StudentManageAttendanceCard extends StatelessWidget {
             Expanded(flex: 3, child: buildFullNameText(context)),
             Expanded(
                 flex: 3,
-                child: courseDetailViewModel
-                                .manageAttendanceModels!.studentsArray![index].confidence ==
+                child: courseDetailViewModel.manageAttendanceModels!
+                                .studentsArray![index].confidence ==
                             null ||
-                        courseDetailViewModel
-                                .manageAttendanceModels!.studentsArray![index].confidence ==
+                        courseDetailViewModel.manageAttendanceModels!
+                                .studentsArray![index].confidence ==
                             ''
                     ? const SizedBox()
                     : Text.rich(
                         TextSpan(
                           children: [
                             TextSpan(
-                                text: '${LocaleKeys.course_teacher_attendance_accuracy.tr()}: '),
+                                text:
+                                    '${LocaleKeys.course_teacher_attendance_accuracy.tr()}: '),
                             TextSpan(
                                 text:
                                     '${courseDetailViewModel.manageAttendanceModels!.studentsArray![index].confidence!}%')
@@ -54,11 +55,13 @@ class StudentManageAttendanceCard extends StatelessWidget {
             Expanded(
               flex: 1,
               child: typeOfUser == 'teacher'
-                  ? courseDetailViewModel
-                              .manageAttendanceModels!.studentsArray![index].attendanceStatus ==
+                  ? courseDetailViewModel.manageAttendanceModels!
+                              .studentsArray![index].attendanceStatus ==
                           'true'
-                      ? Icon(Icons.check_box, color: context.colorSchemeLight.green)
-                      : Icon(Icons.cancel_outlined, color: context.colorSchemeLight.red)
+                      ? Icon(Icons.check_box,
+                          color: context.colorSchemeLight.green)
+                      : Icon(Icons.cancel_outlined,
+                          color: context.colorSchemeLight.red)
                   : const SizedBox(),
             ),
             typeOfUser == 'teacher'
@@ -74,7 +77,8 @@ class StudentManageAttendanceCard extends StatelessWidget {
     return Observer(builder: (_) {
       return IconButton(
           onPressed: () async {
-            await courseDetailViewModel.showPicker(courseDetailViewModel, context, index);
+            await courseDetailViewModel.showPicker(
+                courseDetailViewModel, context, index);
           },
           icon: const Icon(Icons.edit));
     });
@@ -89,6 +93,7 @@ class StudentManageAttendanceCard extends StatelessWidget {
 
   FullScreenWidget buildClipOval(BuildContext context) {
     return FullScreenWidget(
+      disposeLevel: DisposeLevel.High,
       child: Hero(
         tag: courseDetailViewModel.courseDetailModel!.students![index].id!,
         child: ClipOval(
@@ -97,7 +102,8 @@ class StudentManageAttendanceCard extends StatelessWidget {
               height: context.height * 0.06,
               width: context.width * 0.06,
               image: CachedNetworkImageProvider(
-                courseDetailViewModel.courseDetailModel!.students![index].imageUrl!,
+                courseDetailViewModel
+                    .courseDetailModel!.students![index].imageUrl!,
               )),
         ),
       ),
